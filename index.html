@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget vs Actual Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>📊 Budget vs Actual Performance</h1>
+    <p>ABC Financial Services Pvt Ltd – Finance Operations</p>
+  </header>
+
+  <main class="container">
+    <!-- Month Selector -->
+    <div class="toolbar">
+      <label>Select Month:</label>
+      <input type="month" id="monthPicker">
+      <button id="loadBtn">Load</button>
+      <button id="clearBtn">Clear Month</button>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <h4>Total Budget</h4>
+        <p id="totalBudget">₹0</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Total Actual</h4>
+        <p id="totalActual">₹0</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Variance</h4>
+        <p id="variance">₹0</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Utilisation %</h4>
+        <p id="utilisation">0%</p>
+      </div>
+    </div>
+
+    <!-- Add Entry Form -->
+    <div class="form-card">
+      <h3>Add New Entry</h3>
+      <select id="typeSelect">
+        <option value="budget">Budget</option>
+        <option value="actual">Actual</option>
+      </select>
+      <select id="deptSelect">
+        <option value="">Select Department</option>
+      </select>
+      <input type="text" id="categoryInput" placeholder="Category">
+      <input type="number" id="amountInput" placeholder="Amount" step="0.01">
+      <button id="addBtn">Add</button>
+    </div>
+
+    <!-- Main Table -->
+    <div class="card">
+      <h3>Departmental Summary</h3>
+      <div id="summaryTable"></div>
+    </div>
+
+    <!-- Charts -->
+    <div class="chart-row">
+      <div class="card chart-card">
+        <h3>Budget vs Actual by Department</h3>
+        <canvas id="deptChart"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h3>Spending Breakdown (Click a department)</h3>
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Drill-down panel -->
+    <div id="drilldownPanel" class="card" style="display:none;">
+      <h3 id="drillTitle"></h3>
+      <div id="drillTable"></div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
