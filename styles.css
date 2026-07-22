@@ -1,5 +1,5 @@
 :root {
-  --primary: #1E3A8A;   /* deep blue */
+  --primary: #1E3A8A;
   --accent: #3B82F6;
   --success: #10B981;
   --danger: #EF4444;
@@ -71,6 +71,55 @@ th { background: #F8FAFC; font-weight: 600; }
 
 #drilldownPanel { margin-top: 25px; }
 
+/* Help Section */
+.help-section {
+  max-width: 1200px;
+  margin: 20px auto 0;
+  padding: 0 20px;
+}
+.help-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.help-btn:hover {
+  background: #1e40af;
+}
+.help-content {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 25px 30px;
+  margin-top: 15px;
+  box-shadow: var(--shadow);
+  line-height: 1.7;
+}
+.help-content ol {
+  padding-left: 20px;
+}
+.help-content li {
+  margin-bottom: 8px;
+}
+
+/* Totals row in drill-down table */
+#drillTable table tr:last-child {
+  background-color: #F1F5F9;
+  font-weight: 700;
+  border-top: 2px solid var(--primary);
+}
+#drillTable table tr:last-child td {
+  padding: 12px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .chart-row { grid-template-columns: 1fr; }
