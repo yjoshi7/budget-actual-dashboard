@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Budget vs Actual Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -12,6 +12,21 @@
     <h1>📊 Budget vs Actual Performance</h1>
     <p>ABC Financial Services Pvt Ltd – Finance Operations</p>
   </header>
+
+  <!-- How to Use Section (Collapsible) -->
+  <div class="help-section">
+    <button id="helpToggle" class="help-btn">📘 How to Use This Dashboard</button>
+    <div id="helpContent" class="help-content" style="display: none;">
+      <ol>
+        <li><strong>Select a month</strong> using the date picker and click <strong>Load</strong> to see budget vs actual data.</li>
+        <li>View the <strong>KPIs</strong> at the top for an instant financial summary.</li>
+        <li>The <strong>Department Summary table</strong> shows each department’s performance. Click any row to drill down into its expense categories.</li>
+        <li>Use the <strong>Add Entry</strong> form to insert new budget or actual figures – they save automatically to the sheet.</li>
+        <li>The charts update instantly. Switch months to compare performances.</li>
+      </ol>
+      <p><em>Data is stored securely in Google Sheets. All changes are permanent.</em></p>
+    </div>
+  </div>
 
   <main class="container">
     <!-- Month Selector -->
