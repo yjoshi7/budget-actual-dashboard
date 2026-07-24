@@ -1,13 +1,11 @@
-const API = 'https://script.google.com/macros/s/AKfycbzx90xs58ojijjOLXURJ1jBLGCl5QGWkTYFmOraOlNfppJ64PshgBW4TmQnbf-jUnt6/exec';  // <-- paste your web app URL here
+const API = 'https://script.google.com/macros/s/AKfycbzx90xs58ojijjOLXURJ1jBLGCl5QGWkTYFmOraOlNfppJ64PshgBW4TmQnbf-jUnt6/exec';
 
 const deptList = ['Finance','IT','HR','Marketing','Sales','Operations','Legal','Customer Support','Administration'];
 const deptSelect = document.getElementById('deptSelect');
 const monthPicker = document.getElementById('monthPicker');
 
-// Set default month to current
 monthPicker.value = new Date().toISOString().slice(0,7);
 
-// Populate department dropdown
 deptList.forEach(d => {
   const opt = document.createElement('option');
   opt.value = d;
@@ -15,21 +13,23 @@ deptList.forEach(d => {
   deptSelect.appendChild(opt);
 });
 
-// Event listeners
 document.getElementById('loadBtn').addEventListener('click', loadDashboard);
 document.getElementById('addBtn').addEventListener('click', addEntry);
 document.getElementById('clearBtn').addEventListener('click', clearMonth);
 document.getElementById('summaryTable').addEventListener('click', handleDrillClick);
-
-// Help toggle
 document.getElementById('helpToggle').addEventListener('click', function() {
   const content = document.getElementById('helpContent');
   const isVisible = content.style.display === 'block';
   content.style.display = isVisible ? 'none' : 'block';
-  this.textContent = isVisible ? '📘 How to Use This Dashboard' : '📘 Hide Guide';
+  this.innerHTML = isVisible ? '<i class="fas fa-book"></i> How to Use This Dashboard' : '<i class="fas fa-times"></i> Hide Guide';
 });
 
-// -------------------------------------------
+// Chart colors matching portfolio theme
+const CHART_BUDGET_COLOR = '#3B82F6';
+const CHART_ACTUAL_COLOR = '#10B981';
+const CHART_BUDGET_CAT_COLOR = '#64748B';
+const CHART_ACTUAL_CAT_COLOR = '#F59E0B';
+
 async function fetchData(type) {
   const res = await fetch(`${API}?action=get${type}`);
   const data = await res.json();
@@ -51,7 +51,6 @@ async function loadDashboard() {
     fetchData('Actual')
   ]);
 
-  // Summarize by department
   const budgetByDept = {}, actualByDept = {};
   budgetData.forEach(b => budgetByDept[b.dept] = (budgetByDept[b.dept]||0)+b.amount);
   actualData.forEach(a => actualByDept[a.dept] = (actualByDept[a.dept]||0)+a.amount);
@@ -64,7 +63,6 @@ async function loadDashboard() {
     return { dept, budget, actual, variance, utilisation };
   });
 
-  // KPIs
   const totalBudget = rows.reduce((s,r)=>s+r.budget,0);
   const totalActual = rows.reduce((s,r)=>s+r.actual,0);
   const totalVariance = totalActual - totalBudget;
@@ -77,8 +75,6 @@ async function loadDashboard() {
 
   renderTable(rows);
   renderDeptChart(rows);
-
-  // Hide drilldown initially
   document.getElementById('drilldownPanel').style.display = 'none';
 }
 
@@ -110,15 +106,23 @@ function renderDeptChart(rows) {
     data: {
       labels: rows.map(r => r.dept),
       datasets: [
-        { label: 'Budget', data: rows.map(r => r.budget), backgroundColor: '#3B82F6' },
-        { label: 'Actual', data: rows.map(r => r.actual), backgroundColor: '#10B981' }
+        { label: 'Budget', data: rows.map(r => r.budget), backgroundColor: CHART_BUDGET_COLOR },
+        { label: 'Actual', data: rows.map(r => r.actual), backgroundColor: CHART_ACTUAL_COLOR }
       ]
     },
-    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top', labels: { color: '#F8FAFC' } }
+      },
+      scales: {
+        x: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
+        y: { beginAtZero: true, ticks: { color: '#94A3B8' }, grid: { color: 'rgba(148,163,184,0.1)' } }
+      }
+    }
   });
 }
 
-// Drill-down with Totals Row
 async function handleDrillClick(e) {
   const tr = e.target.closest('tr');
   if (!tr || !tr.dataset.dept) return;
@@ -154,15 +158,12 @@ async function handleDrillClick(e) {
       <td class="${varClass}">₹${r.variance.toLocaleString()}</td>
     </tr>`;
   });
-
-  // Totals row
   html += `<tr>
     <td><strong>TOTAL</strong></td>
     <td><strong>₹${totalBudget.toLocaleString()}</strong></td>
     <td><strong>₹${totalActual.toLocaleString()}</strong></td>
     <td class="${totalVariance >= 0 ? 'negative' : 'positive'}"><strong>₹${totalVariance.toLocaleString()}</strong></td>
   </tr>`;
-
   html += '</table>';
   document.getElementById('drillTable').innerHTML = html;
   document.getElementById('drilldownPanel').style.display = 'block';
@@ -179,11 +180,20 @@ function renderCategoryChart(rows) {
     data: {
       labels: rows.map(r => r.category),
       datasets: [
-        { label: 'Budget', data: rows.map(r => r.budget), backgroundColor: '#94A3B8' },
-        { label: 'Actual', data: rows.map(r => r.actual), backgroundColor: '#F59E0B' }
+        { label: 'Budget', data: rows.map(r => r.budget), backgroundColor: CHART_BUDGET_CAT_COLOR },
+        { label: 'Actual', data: rows.map(r => r.actual), backgroundColor: CHART_ACTUAL_CAT_COLOR }
       ]
     },
-    options: { responsive: true }
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#F8FAFC' } }
+      },
+      scales: {
+        x: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
+        y: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(148,163,184,0.1)' } }
+      }
+    }
   });
 }
 
