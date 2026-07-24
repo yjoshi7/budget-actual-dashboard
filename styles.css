@@ -1,17 +1,18 @@
 /* ===================================================
-   Budget vs Actual Dashboard – Dark Portfolio Theme
+   Budget vs Actual Dashboard – Portfolio Dark Theme
+   Matches: #0B0E14, #161B22, #1E293B, #3B82F6
 =================================================== */
 :root {
-  --primary: #0F172A;     /* deep navy */
-  --secondary: #3B82F6;   /* accent blue */
-  --accent: #14B8A6;      /* teal (rarely used) */
+  --primary: #0F172A;
+  --secondary: #3B82F6;
+  --accent: #14B8A6;
   --success: #10B981;
   --danger: #DC2626;
-  --bg: #0B0E14;          /* main background */
-  --card-bg: #161B22;     /* card / form background */
-  --text: #F8FAFC;        /* main text */
-  --muted: #94A3B8;       /* secondary text */
-  --border: #1E293B;      /* subtle border */
+  --bg: #0B0E14;
+  --card-bg: #161B22;
+  --text: #F8FAFC;
+  --muted: #94A3B8;
+  --border: #1E293B;
   --radius: 12px;
   --shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
@@ -62,11 +63,15 @@ header p {
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
 }
+.toolbar label {
+  color: var(--text);
+  font-weight: 500;
+}
 .toolbar input[type="month"] {
   padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #0B0E14;
+  background: var(--bg);
   color: var(--text);
   font-size: 0.95rem;
 }
@@ -85,6 +90,15 @@ button {
 }
 button:hover {
   background: #2563EB;
+}
+#clearBtn {
+  background: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+}
+#clearBtn:hover {
+  background: var(--danger);
+  color: #fff;
 }
 
 /* KPI Cards */
@@ -141,18 +155,26 @@ button:hover {
   margin-bottom: 25px;
   border: 1px solid var(--border);
 }
+.form-card h3 {
+  width: 100%;
+  margin-bottom: 5px;
+  color: var(--secondary);
+}
 .form-card select,
 .form-card input {
   padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: #0B0E14;
+  background: var(--bg);
   color: var(--text);
   font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
 }
 .form-card select {
   color: var(--text);
+}
+.form-card input::placeholder {
+  color: var(--muted);
 }
 
 /* Tables */
@@ -199,6 +221,9 @@ tr:hover td {
 #drilldownPanel {
   margin-top: 25px;
 }
+#drillTitle {
+  color: var(--secondary);
+}
 
 /* Drill-down totals row */
 #drillTable table tr:last-child {
@@ -244,6 +269,7 @@ tr:hover td {
   box-shadow: var(--shadow);
   line-height: 1.7;
   border: 1px solid var(--border);
+  color: var(--text);
 }
 .help-content ol {
   padding-left: 20px;
@@ -252,9 +278,13 @@ tr:hover td {
 .help-content li {
   margin-bottom: 8px;
 }
+.help-content strong {
+  color: var(--secondary);
+}
 
 /* Responsive */
 @media (max-width: 768px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .chart-row { grid-template-columns: 1fr; }
+  .form-card { flex-direction: column; align-items: stretch; }
 }
